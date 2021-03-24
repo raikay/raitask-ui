@@ -9,9 +9,7 @@ export const getApi = (params, config = {}) => {
 export const getApiList = (params, config = {}) => {
   return request.get(apiPrefix + 'getlist', { params: params }, config)
 }
-export const removeApi = (params, config = {}) => {
-  return request.delete(apiPrefix + 'softdelete', { params: params }, config)
-}
+
 export const batchRemoveApi = (params, config = {}) => {
   return request.put(apiPrefix + 'BatchsoftDelete', params, config)
 }
@@ -34,5 +32,19 @@ export const getV2SwaggerJson = (params, config = {}) => {
 
 
 export const getAllJobs = (params, config = {}) => {
-    return request.get(apiPrefix + 'jobs', { params}, config)
-  } 
+  return request.get(apiPrefix + 'jobs', { params }, config)
+}
+export const addJobs = (params, config = {}) => {
+  return request.post(apiPrefix, params, config)
+}
+
+
+// 批量删除
+export function removeJob(data) {
+  console.log(data);
+  return request({
+    url: apiPrefix + 'del',
+    method: 'delete',
+    data: data
+  })
+}
