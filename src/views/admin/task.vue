@@ -311,7 +311,7 @@ import {
 } from "@/api/admin/role";
 import MyContainer from "@/components/my-container";
 import MyConfirmButton from "@/components/my-confirm-button";
-import { getAllJobs, addJobs,removeJob } from "@/api/admin/task";
+import { getAllJobs, addJobs,removeJob,getJobInfo } from "@/api/admin/task";
 
 export default {
   name: "Roles",
@@ -434,7 +434,7 @@ export default {
     // 显示编辑界面
     async onEdit(index, row) {
       const loading = this.$loading();
-      const res = await getRole({ id: row.id });
+      const res = await getJobInfo({group: row.groupName,name:row.name});
       loading.close();
       if (res && res.success) {
         const data = res.data;

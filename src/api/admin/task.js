@@ -31,6 +31,13 @@ export const getV2SwaggerJson = (params, config = {}) => {
 
 
 
+//==========================
+export const getJobInfo = (params, config = {}) => {
+  return request.get(apiPrefix+"QueryJob" , {params:params }, config)
+}
+
+
+
 export const getAllJobs = (params, config = {}) => {
   return request.get(apiPrefix + 'jobs', { params }, config)
 }
