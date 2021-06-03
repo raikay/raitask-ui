@@ -235,58 +235,118 @@
       </div>
     </el-dialog>
 
+
     <!--编辑窗口-->
-    <el-drawer
-      v-if="checkPermission(['api:admin:role:update'])"
-      title="编辑角色"
-      :wrapper-closable="true"
+
+    <el-dialog
+      title="编辑任务"
       :visible.sync="editFormVisible"
-      direction="btt"
-      size="'auto'"
       @close="closeEditForm"
+      width="500px"
     >
-      <section style="padding: 24px 48px 74px 24px">
-        <el-form
-          ref="editForm"
-          :model="editForm"
-          :rules="editFormRules"
-          label-width="80px"
-          :inline="false"
-        >
-          <el-row>
-            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
-              <el-form-item label="角色名" prop="name">
-                <el-input v-model="editForm.name" auto-complete="off" />
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="12" :md="6" :lg="6" :xl="6">
-              <el-form-item label="状态" prop="enabled">
-                <el-select
-                  v-model="editForm.enabled"
-                  placeholder="请选择角色状态"
-                  style="width: 100%"
-                >
-                  <el-option
-                    v-for="item in statusList"
-                    :key="item.value"
-                    :label="item.name"
-                    :value="item.value"
-                  />
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :xs="24" :sm="24" :md="12" :lg="12" :xl="12">
-              <el-form-item label="说明" prop="description">
-                <el-input v-model="editForm.description" auto-complete="off" />
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </section>
-      <div class="drawer-footer">
-        <el-button @click.native="editFormVisible = false">取消</el-button>
+      <el-form
+        label-width="100px"
+        :model="addForm"
+        ref="editForm"
+        :rules="addFormRules"
+      >
+        <el-form-item label="任务名称">
+          <el-input v-model="addForm.jobName" style="width: 350px"></el-input>
+        </el-form-item>
+
+        <el-form-item label="分组名称">
+          <el-input v-model="addForm.jobGroup" style="width: 350px"></el-input>
+        </el-form-item>
+
+        <el-form-item label="请求地址">
+          <el-input
+            v-model="addForm.requestUrl"
+            style="width: 350px"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="请求类型">
+          <el-radio-group v-model="addForm.requestType">
+            <el-radio :label="1">Get</el-radio>
+            <el-radio :label="2">Post</el-radio>
+            <el-radio :label="4">Put</el-radio>
+            <el-radio :label="8">Delete</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="开始时间">
+          <el-date-picker v-model="addForm.beginTime"></el-date-picker>
+        </el-form-item>
+
+        <el-form-item label="结束时间">
+          <el-date-picker v-model="addForm.endTime"></el-date-picker>
+        </el-form-item>
+
+        <el-form-item label="触发器类型">
+          <el-select v-model="addForm.triggerType" placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="间隔时间" v-if="addForm.triggerType == 2">
+          <el-input
+            placeholder="请输入内容"
+            v-model="addForm.intervalSecond"
+            class="input-with-select"
+            style="width: 260px"
+          >
+            <el-select v-model="selectVal" slot="append" placeholder="请选择" style="width: 70px">
+              <el-option label="秒" :value="1"></el-option>
+              <el-option label="分" :value="60"></el-option>
+              <el-option label="时" :value="3600"></el-option>
+              <el-option label="天" :value="86400"></el-option>
+            </el-select>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="Cron表达式" v-if="addForm.triggerType == 1">
+          <el-input v-model="addForm.cron" style="width: 350px"></el-input>
+        </el-form-item>
+
+
+
+        <el-form-item label="请求头" >
+          <el-input v-model="addForm.headers" style="width: 350px"></el-input>
+        </el-form-item>
+
+
+        <el-form-item label="请求参数" >
+          <el-input type="textarea" v-model="addForm.headers" style="width: 350px"></el-input>
+        </el-form-item>
+
+        <el-form-item label="任务描述" >
+          <el-input type="textarea" v-model="addForm.description" style="width: 350px"></el-input>
+        </el-form-item>
+
+
+          <el-form-item label="邮件通知">
+          <el-radio-group v-model="addForm.mailMessage">
+            <el-radio :label="0">不通知</el-radio>
+            <el-radio :label="1">通知异常</el-radio>
+            <el-radio :label="2">通知所有</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+      </el-form>
+
+
+
+
+      
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click.native="addFormVisible = false">取消</el-button>
         <el-button
           type="primary"
           :validate="editFormValidate"
@@ -295,7 +355,7 @@
           >提交</el-button
         >
       </div>
-    </el-drawer>
+    </el-dialog>
   </my-container>
 </template>
 
@@ -435,18 +495,20 @@ export default {
     async onEdit(index, row) {
       const loading = this.$loading();
       const res = await getJobInfo({group: row.groupName,name:row.name});
+      this.editFormVisible = true;
       loading.close();
-      if (res && res.success) {
-        const data = res.data;
-        this.editForm = data;
-        this.editFormVisible = true;
-      }
+    //  if (res && res.success) {
+      //  const data = res.data;
+        this.addForm = res;
+        
+      //}
     },
     closeEditForm() {
       this.$refs.editForm.resetFields();
     },
     // 显示新增界面
     onAdd() {
+      this.addForm={};
       this.addFormVisible = true;
     },
     closeAddForm() {
