@@ -371,7 +371,7 @@ import {
 } from "@/api/admin/role";
 import MyContainer from "@/components/my-container";
 import MyConfirmButton from "@/components/my-confirm-button";
-import { getAllJobs, addJobs,removeJob,getJobInfo } from "@/api/admin/task";
+import { getAllJobs, addJobs,editJob,removeJob,getJobInfo } from "@/api/admin/task";
 
 export default {
   name: "Roles",
@@ -411,10 +411,16 @@ export default {
       },
       // 编辑界面数据
       editForm: {
-        id: "",
-        name: "",
-        description: "",
-        enabled: "",
+        jobGroup: "",
+        jobName: "",
+        jobType: "1", //url
+        beginTime: "",
+        triggerType: "2",
+        requestUrl: "",
+        requestType: 1,
+        intervalSecond: "",
+        mailMessage: 0,
+        cron: "",
       },
       editFormRef: null,
 
@@ -527,7 +533,7 @@ export default {
       this.editLoading = true;
       const para = _.cloneDeep(this.editForm);
 
-      const res = await editRole(para);
+      const res = await editJob(para);
       this.editLoading = false;
 
       if (!res?.success) {

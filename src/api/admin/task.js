@@ -45,6 +45,10 @@ export const addJobs = (params, config = {}) => {
   return request.post(apiPrefix, params, config)
 }
 
+export const editJob = (params, config = {}) => {
+  return request.put(apiPrefix+'ModifyJob', params, config)
+}
+
 
 // 批量删除
 export function removeJob(data) {
