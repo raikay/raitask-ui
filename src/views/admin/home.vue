@@ -1,6 +1,14 @@
 <template>
   <section style="padding:20px 80px 0px 8px;">
     <el-timeline>
+    <el-timeline-item timestamp="版本 raitask-ui 1.0.0" placement="top">
+        <el-card>
+          <h4>添加调度任务功能增删改查</h4>
+          <h4>魔改全部接口调用适配Raitask项目</h4>
+          <p>rakay 提交于 2021-10-14</p>
+        </el-card>
+      </el-timeline-item>
+      <h2>以下为原项目更新日志：</h2>
       <el-timeline-item timestamp="版本 1.4.1" placement="top">
         <el-card>
           <h4>升级 Nuget包到最新版本</h4>

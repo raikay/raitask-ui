@@ -4,7 +4,7 @@
       <div class="logo collapsedLogo" :class="isCollapse ? 'logo-collapse' : ''">
         <router-link to="/" tag="div" class="logo-text" style="font-size: 22px;">
           <!-- {{ isCollapse ? projectNameShort : projectName }} -->
-          {{ isCollapse ? projectNameShort : "权限管理系统" }}
+          {{ isCollapse ? projectNameShort : "任务调度系统" }}
         </router-link>
       </div>
       <el-scrollbar class="page-component__scroll" style="background-color:#304156;border-right: solid 1px #e6e6e6;">
